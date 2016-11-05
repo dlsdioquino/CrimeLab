@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.DrugTestDAO">    
+    <!--select id="getAllDrugTests" resultType="DrugTest">
+        SELECT id, firstName, lastName, title FROM sample
+    </select-->
+ 
+    <!--insert id="drugTestInfo" parameterType="com.crimelabsrs.model.DrugTest">
+        INSERT INTO sample (firstName, lastName, title)
+        VALUES (#{firstName}, #{lastName}, #{title})
+    </insert-->
+ 
+    <!--update id="updateUser" parameterType="Sample">
+        UPDATE users SET
+        firstName = #{firstName},
+        lastName = #{lastName},
+        title = #{title}
+        WHERE ID = #{id}
+    </update-->
+    
+    <insert id="drugTestInfo" parameterType="DrugTest">
+        INSERT INTO cldb_results_drugtestreportdata (fadtNo, sbrNo, timeDate, name, address, age, sex, purpose, specimenSubmitted
+        purposeOfExamination, methamphetamine, thc, remarks, examinerName, examinerRank, examinerPosition, appName, appRank, appPosition)
+        VALUES (#{fadtNo}, #{sbrNo}, STR_TO_DATE(#{timeDate}, '%m/%d/%Y %h:%i %p'), #{name}, #{address}, #{age}, #{sex}, #{purpose}, #{specimenSubmitted},
+        #{purposeOfExamination}, #{methamphetamine}, #{thc}, #{remarks}, #{examinerName}, #{examinerRank}, #{examinerPosition}, #{appName}, #{appRank}, #{appPosition})
+    </insert>
+    
+</mapper>

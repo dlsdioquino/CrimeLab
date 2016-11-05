@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.FirearmsDAO"> 
+ 
+    <insert id="firearmsInfo" parameterType="Firearms">
+        INSERT INTO cldb_results_firearmsreportdata (caseStatus, caseType, examinerName, investigator, placeOfIncident, 
+        reportNo, requestingParty, suspect, timeDateIncident, timeDateReceived, victim)
+        VALUES (#{caseStatus}, #{caseType}, #{examinerName}, #{investigator}, #{placeOfIncident}, #{reportNo}, 
+        #{requestingParty}, #{suspect}, STR_TO_DATE(REPLACE(#{timeDateIncident}, "'", ''), '%m/%d/%Y %h:%i %p'),
+        STR_TO_DATE(REPLACE(#{timeDateReceived}, "'", ''), '%m/%d/%Y %h:%i %p'), #{victim})
+    </insert>
+    
+    <select id="getAllFirearms" resultType="Firearms">
+        SELECT reportNo, examinerName, caseType, victim, suspect, DATE_FORMAT(timeDateIncident,'%d-%b-%y') as timeDateIncident,
+        placeOfIncident, requestingParty, investigator, caseStatus
+        FROM cldb_results_firearmsreportdata
+        WHERE extract(MONTH FROM timeDateReceived)  = #{month}
+        ORDER BY timeDateReceived asc
+    </select>
+
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.AssignmentDAO">
+    <!-- 0 means ongoing task, by default set to 0 -->
+    <insert id="createTask" parameterType="Hashmap" useGeneratedKeys="true" keyProperty="map.taskID">
+        INSERT into cldb_tasks (taskname,description,username,status,priority,result_id) 
+        values (#{map.taskname},#{map.description},#{map.username}, 0,#{map.priority},#{map.result_id})
+    </insert> 
+    
+    <insert id="createResult" parameterType="Hashmap" useGeneratedKeys="true" keyProperty="map.result_id">
+        Insert into cldb_results (rtype,div_id,username) 
+        values (#{map.reportType},#{map.divisionID},#{map.username})
+    </insert> 
+    
+    <select id="getUsers" resultType="Hashmap">
+        SELECT username,concat(firstname," ",IFNULL(middle,"")," ",lastname) as Name FROM cldb_users
+        <!-- WHERE  username not #{username} and division = -->
+    </select>
+    
+    <insert id="assignTask">
+        INSERT INTO cldb_taskusers(task_id,username) values (#{taskID},#{username})
+    </insert>
+    
+    <select id="getAssignments" resultType="Hashmap">
+        <!--SELECT cldb_tasks.task_id as taskID,taskname,description,
+        DATE_FORMAT(date_created,'%b %d %Y %h:%i %p') as date_created,cldb_tasks.username as AssignedBy,
+        cldb_taskusers.username as AssignedTo,status from cldb_tasks inner join cldb_taskusers on 
+        cldb_tasks.task_id = cldb_taskusers.task_id order by taskID-->
+        SELECT cldb_results.result_id,cldb_tasks.task_id as taskID,taskname,description,
+        DATE_FORMAT(cldb_tasks.date_created,'%b %d %Y %h:%i %p') as date_created,cldb_tasks.username as AssignedBy,
+        cldb_taskusers.username as AssignedTo,
+        IF(priority=0,'Low','High') as Priority,
+        IF(cldb_tasks.status=0,'Ongoing',IF(cldb_tasks.status=1,'Completed','Cancelled')) as Status,
+        cldb_results.rtype as "Report Type",
+        IF(cldb_results.status = 1,'Submitted','No Submission') as Submitted
+        from cldb_tasks inner join cldb_taskusers on 
+        cldb_tasks.task_id = cldb_taskusers.task_id 
+        <!--and cldb_tasks.username = #[username} Include if Need to sort to logged in user-->
+        inner join cldb_results on cldb_tasks.result_id = cldb_results.result_id        
+        order by taskID
+    </select>
+    
+    <update id="updateTaskStatus">
+        UPDATE cldb_tasks SET status = #{status} WHERE task_id = #{taskID}
+    </update>
+    
+    <select id="getUserTasks" resultType="Hashmap">
+        Select cldb_results.result_id,taskname,description,IF(priority=0,'Low','High') as Priority,cldb_results.rtype as "Report Type",
+        DATE_FORMAT(cldb_tasks.date_created,'%b %d %Y %h:%i %p') as date_created 
+        FROM cldb_tasks 
+        inner join cldb_results on  cldb_tasks.status = 0 and cldb_tasks.result_id = cldb_results.result_id
+        inner join cldb_taskusers on cldb_taskusers.username = cldb_results.username and cldb_tasks.task_id = cldb_taskusers.task_id
+        where cldb_results.username = #{username} and cldb_results.status = 0 <!-- Filter to username and status 0-->
+    </select>
+    
+    <select id="getResultTypes" resultType="Hashmap">
+        SELECT rtype,description FROM cldb_vtwo.cldb_result_type
+    </select>
+    
+    <select id="getNotificationCount" resultType="int">
+        SELECT count(*) FROM cldb_tasks where task_id in (SELECT task_id FROM cldb_taskusers WHERE username = #{username} and status = 0)
+    </select>
+    
+    <update id="updateResults">
+        Update cldb_results SET date_finished = now(),status = 1 where result_id = #{resultID}
+    </update>
+    
+    
+    <update id="updateResultStatus">
+        UPDATE cldb_results SET  status = 2 WHERE result_id = #{resultID}
+    </update>
+</mapper>

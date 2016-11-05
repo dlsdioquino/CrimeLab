@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.PolygraphDAO"> 
+ 
+    <select id="getFileUploadPath" resultType="String">
+        SELECT setting_value FROM cldb_sitesettings WHERE setting_name = "fileLocation"
+    </select>
+    
+    <insert id="polygraphInfo" parameterType="Polygraph">
+        INSERT INTO cldb_results_polygraphreportdata (subjectNo, name, photoLocation, photoName, gender, age, birthdate, 
+        civilStatus, idPresented, address, caseNo, requestingParty, timeDateReceived, natureOfCase, examLocation, examDate, 
+        purpose, preTest, inTest, result, postTest, remarks, timeDateCompleted, examinerName, examinerRank, examinerPosition, 
+        notedName, notedRank, notedPosition)
+        VALUES(#{subjectNo}, #{name}, #{photoLocation}, #{photoName}, #{gender}, #{age}, #{birthdate}, #{civilStatus}, #{idPresented}, 
+        #{address}, #{caseNo}, #{requestingParty}, STR_TO_DATE(REPLACE(#{timeDateReceived}, "'", ''), '%m/%d/%Y %h:%i %p'), #{natureOfCase}, #{examLocation}, 
+        #{examDate}, #{purpose}, #{preTest}, #{inTest}, #{result}, #{postTest}, #{remarks}, 
+        STR_TO_DATE(REPLACE(#{timeDateCompleted}, "'", ''), '%m/%d/%Y %h:%i %p'), #{examinerName}, #{examinerRank}, 
+        #{examinerPosition}, #{notedName}, #{notedRank},#{notedPosition})
+    </insert> 
+</mapper>

@@ -1,0 +1,85 @@
+body {
+    overflow-x: hidden;
+    background-image: url('../img/pattern.jpg');
+    background-repeat: repeat;
+}
+
+#header {
+    position: relative;
+    margin: 0;
+}
+
+#footer {
+    position: relative;
+    margin: 0;
+}
+
+.indexcontent {
+    text-align: justify;
+    font-family: 'FontAwesome', 'Helvetica', 'Calibri', 'Tahoma';
+}
+
+.indexcontent h4 {
+    color: #b91d47;
+    margin: 10px 0 3px 0;
+}
+
+.indexcontent p {
+    font-size: 10pt;
+}
+
+.headerimg {
+    width: 100%;
+}
+
+.column-header {
+    padding: 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+}
+
+#sitelogo {
+    margin: 5px 0;
+}
+
+.login-page {
+    height: 100vh;
+    background-image: -webkit-radial-gradient(circle,#fff,#7383f3);
+    background-image: radial-gradient(circle,#fff,#7383f3);
+    background-repeat:no-repeat;
+}
+
+#login-panel {
+    padding-top: 5%;
+    height: 100vh;
+}
+
+#login-panel h1 {
+    font-family: Arial Narrow;
+    font-weight: 300;
+    color: #000;
+    margin-bottom: 0;
+}
+
+#login-panel h1 span {
+    font-family: Arial;
+    font-weight: 700;
+    color: #0c1c8e;
+}
+
+#login-panel h4 {
+    font-family: Arial Narrow;
+    margin-top: 0;
+    color: #000;
+}
+
+#login-panel input[type="submit"] {
+    background-image: -webkit-linear-gradient(top,#fff 0,#a2acf7 100%);
+    background-image: -o-linear-gradient(top,#fff 0,#a2acf7 100%);
+    background-image: linear-gradient(to bottom,#fff 0,#a2acf7 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffa2acf7', GradientType=0);
+    border-color: #fff;
+    background-color: transparent;
+    color: #333;
+}

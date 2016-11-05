@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.AdminDAO">
+        
+    <select id="getAllUsers" resultType="User">
+        SELECT username, password, firstname, middle, lastname, position,
+                account_created, registration_type, photopath, enabled
+        FROM cldb_users
+        ORDER BY firstname
+    </select>
+    
+    <insert id="addUser" parameterType="User">
+        INSERT INTO cldb_users (username, password, firstname, middle, lastname,
+                                position, account_created, registration_type,
+                                photopath, enabled)
+        VALUES (#{username}, #{password}, #{firstname}, #{middle}, #{lastname},
+                #{position}, TIMESTAMP(NOW()), #{registration_type},
+                #{photopath}, #{enabled})
+    </insert>
+    
+    <select id="getUserStatus" parameterType="String" resultType="int">
+        SELECT enabled
+        FROM cldb_users
+        WHERE username = #{username}
+    </select>
+    
+    <select id="getUser" parameterType="String" resultType="User">
+        SELECT username, password, firstname, middle, lastname, position,
+                account_created, registration_type, photopath, enabled
+        FROM cldb_users
+        WHERE username = #{username}
+    </select>
+    
+    <update id="changeUserStatus" parameterType="map">
+        UPDATE cldb_users
+        SET enabled = #{enabled}
+        WHERE username = #{username}
+    </update>
+    
+    <insert id="addUserDiv" parameterType="map">
+        INSERT IGNORE INTO cldb_divisionusers (username, div_id)
+        VALUES (#{username}, UPPER(#{div_id})) 
+    </insert>
+    
+    <insert id="addUserRole" parameterType="map">
+        INSERT IGNORE INTO cldb_userroles (username, role)
+        VALUES (#{username}, CONCAT(&quot;ROLE_&quot;, UPPER(#{role}))) 
+    </insert>
+    
+    <select id="countUsername" parameterType="String" resultType="int">
+        SELECT COUNT(*) as count
+        FROM cldb_users
+        WHERE username = #{username}
+    </select>
+    
+    <delete id="resetUserDivs" parameterType="map">
+        DELETE
+        FROM cldb_divisionusers
+        WHERE username = #{username}
+        <if test="notall != null">
+            AND type = 0
+        </if>
+    </delete>
+    
+    <delete id="resetUserRoles" parameterType="map">
+        DELETE
+        FROM cldb_userroles
+        WHERE username = #{username}
+        <if test="notall != null">
+            AND role NOT LIKE &quot;%DIVHEAD&quot;
+        </if>
+    </delete>
+    
+    <select id="getDivisions" resultType="Division">
+        SELECT div_id, div_name, date, status
+        FROM cldb_divisions
+        ORDER BY div_id ASC
+    </select>
+    
+    <select id="getUserRoles" parameterType="String" resultType="String">
+        SELECT role
+        FROM cldb_userroles
+        WHERE username = #{username}
+            AND role NOT LIKE &quot;%DIVHEAD&quot;
+    </select>
+    
+    <select id="getUserDivs" parameterType="String" resultType="String">
+        SELECT div_id
+        FROM cldb_divisionusers
+        WHERE username = #{username}
+    </select>
+    
+    <update id="updateUser" parameterType="map">
+        UPDATE cldb_users
+        SET <if test="password != null">password = #{password},</if>
+            firstname = #{firstname},
+            middle = #{middle},
+            lastname = #{lastname},
+            position = #{position}
+        WHERE username = #{username}
+    </update>
+    
+    <select id="getSiteSetting" parameterType="String" resultType="SiteSetting">
+        SELECT setting_name, setting_value
+        FROM cldb_sitesettings
+        WHERE setting_name = #{settingname}
+    </select>
+    
+    <update id="changeSiteSetting" parameterType="map">
+        UPDATE cldb_sitesettings
+        SET setting_value = #{setting_value}
+        WHERE setting_name = #{setting_name}
+    </update>
+    
+    <select id="getMaxContentId" resultType="int">
+        SELECT IFNULL(MAX(content_id) + 1, 1) AS maxi
+        FROM cldb_contents
+    </select>
+    
+    <select id="getSiteContents" parameterType="map" resultType="Content">
+        SELECT content_id, title, content, status, date_created
+        FROM cldb_contents
+        ORDER BY content_id DESC
+        <if test="limit != null or limit != 0">
+            <choose>
+                <when test="offset != null or offset != 0">
+                    LIMIT #{offset}, #{limit}
+                </when>
+                <otherwise>
+                    LIMIT #{limit}
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+    
+    <select id="getLatestPost" parameterType="int" resultType="Content">
+        SELECT content_id, title, content, status, date_created
+        FROM cldb_contents
+        WHERE content_id = #{content_id}
+    </select>
+    
+    <insert id="insertSitePost" parameterType="Content">
+        INSERT INTO cldb_contents (content_id, title, content)
+        VALUES(#{content_id}, #{title}, #{content})
+    </insert>
+    
+    <insert id="insertSitePhotoPost" parameterType="Content">
+        INSERT INTO cldb_contents (content_id, title, content, photopath)
+        VALUES(#{content_id}, #{title}, #{content}, #{photopath})
+    </insert>
+    
+    <delete id="removeDivHead" parameterType="String">
+        DELETE
+        FROM cldb_userroles
+        WHERE username = #{username}
+            AND role LIKE &quot;%DIVHEAD&quot;
+    </delete>
+    
+    <insert id="addDivHeadRole" parameterType="String">
+        INSERT IGNORE INTO cldb_userroles (username, role)
+        VALUES (#{username}, &quot;ROLE_DIVHEAD&quot;)
+    </insert>
+    
+    <insert id="changeUserType" parameterType="map">
+        UPDATE cldb_divisionusers
+        SET type = #{type}
+        WHERE username = #{username}
+            AND div_id = #{div_id}
+    </insert>
+    
+    <select id="getDivHeadCount" parameterType="String">
+        SELECT COUNT(*) as count
+        FROM cldb_divisionusers
+        WHERE username = #{username}
+            AND type = 1
+    </select>
+    
+</mapper>

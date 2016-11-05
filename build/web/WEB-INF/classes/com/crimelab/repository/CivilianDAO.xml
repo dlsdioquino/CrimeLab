@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.CivilianDAO"> 
+       
+    <insert id="civilianInfo" parameterType="Civilian">
+        INSERT INTO cldb_results_civilreportdata(civilStatus, complexion, dateTaken, dialectSpoken, educationalAttainment, 
+        eyes, hair, height, nameOfOfficial, nameOfPerson, parentsAddress, parentsName, provincialAddress, purpose, 
+        race, region, relativeAddress, reportNo, spouseAddress, spouseName, stationTaken, voterNo, weight)
+        VALUES (#{civilStatus}, #{complexion}, STR_TO_DATE(REPLACE(#{dateTaken}, "'", ''), '%m/%d/%Y %h:%i %p'),
+        #{dialectSpoken}, #{educationalAttainment}, #{eyes}, #{hair}, #{height}, #{nameOfOfficial}, #{nameOfPerson},
+        #{parentsAddress}, #{parentsName}, #{provincialAddress}, #{purpose}, #{race}, #{region}, #{relativeAddress}, #{reportNo}, 
+        #{spouseAddress}, #{spouseName}, #{stationTaken}, #{voterNo}, #{weight})
+    </insert>
+    
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.GalleryDAO">    
+    <select id="getFiles" resultType="HashMap">
+        SELECT caseNo, photoLocation FROM cldb_galleryresults
+    </select>
+    
+    <select id="getCompositeSketch" resultType="GalleryResults">
+        SELECT photoLocation FROM cldb_galleryresults WHERE caseNo = #{caseNo}
+    </select>
+    
+    <select id="getFileUploadPath" resultType="String">
+        SELECT setting_value FROM cldb_sitesettings WHERE setting_name = "fileLocation"
+    </select>
+    
+    <select id="getCompositeDetails" resultType="GalleryResults">
+        SELECT caseNo, date, offenseIncident, nameAKA, sex, height, built, otherInfo, describedBy, requestingParty, investOnCase, interviewer, age, weight, complexion, rating, photoName, photoLocation
+        FROM cldb_galleryresults
+        WHERE caseNo = #{caseNo}
+    </select>
+    
+    <insert id="insertResults" parameterType="GalleryResults">
+        INSERT INTO cldb_galleryresults (caseNo, date, offenseIncident, nameAKA, sex, height, built, otherInfo, describedBy, requestingParty, investOnCase, interviewer, age, weight, complexion, rating, photoName, photoLocation)
+        VALUES (#{caseNo}, #{date}, #{offenseIncident}, #{nameAKA}, #{sex}, #{height}, #{built}, #{otherInfo}, #{describedBy}, #{requestingParty}, #{investOnCase}, #{interviewer}, #{age}, #{weight}, #{complexion}, #{rating}, #{photoName}, #{photoLocation})
+    </insert>
+
+</mapper> 

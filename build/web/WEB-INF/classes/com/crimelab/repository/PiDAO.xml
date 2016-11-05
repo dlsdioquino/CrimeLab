@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.PiDAO"> 
+    
+    <select id="getAllPi" resultType="PiReport">
+        SELECT reportNo, caseType, suspects, victims, timeDateReceived, requestingParty FROM pireportdata
+    </select>  
+        
+    <insert id="piReportInfo" parameterType="PiReport">
+        INSERT INTO cldb_results_pireportdata (examType, reportNo, caseType, suspects, victims, timeDateReceived, requestingParty,
+        specimenSubmitted, purposeOfLabExam, findings, conclusions, remarks, timeDateCompleted, examinerName, examinerRank,
+        examinerPosition, appName, appRank, appPosition, notedName, notedRank, notedPosition)
+        VALUES (#{examType}, #{reportNo}, #{caseType}, #{suspects}, #{victims}, STR_TO_DATE(#{timeDateReceived}, '%m/%d/%Y %h:%i %p'), #{requestingParty},
+        #{specimenSubmitted}, #{purposeOfLabExam}, #{findings}, #{conclusions}, #{remarks}, STR_TO_DATE(#{timeDateCompleted}, '%m/%d/%Y %h:%i %p'), #{examinerName}, #{examinerRank},
+        #{examinerPosition}, #{appName}, #{appRank}, #{appPosition}, #{notedName}, #{notedRank}, #{notedPosition})
+    </insert>
+    
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.ChemistryDAO">    
+    
+    <insert id="chemistryInfo" parameterType="Chemistry">
+        INSERT INTO cldb_results_chem (result_id,examType, reportNo, caseType, suspects, victims, typeOfOperation, placeOfOperation, timeDateReceived, requestingParty, custody, descriptionOfEvidence, others_descriptionOfEvidence, specimenWeight)
+        VALUES (#{resultID},#{examType}, #{reportNo}, #{caseType}, #{suspects}, #{victims}, #{typeOfOperation}, #{placeOfOperation}, STR_TO_DATE(#{timeDateReceived}, '%m/%d/%Y %h:%i %p'), #{requestingParty}, #{custody}, #{descriptionOfEvidence}, #{others_descriptionOfEvidence}, #{specimenWeight})
+    </insert>
+        
+    <select id="getAllChemistry" resultType="Chemistry">
+        SELECT DATE_FORMAT(timeDateReceived,'%d-%b-%y') as timeDateReceived, reportNo, requestingParty, descriptionOfEvidence, specimenWeight, custody, suspects, typeOfOperation, placeOfOperation 
+        FROM cldb_results_chem
+        WHERE extract(MONTH FROM timeDateReceived) = #{month}
+        ORDER BY timeDateReceived asc
+    </select>
+    
+    <select id="getChemistryReport" resultType="Hashmap">
+        SELECT result_id, reportNo, examType, caseType, suspects, victims, typeOfOperation, placeOfOperation, timeDateReceived, requestingParty, custody, descriptionOfEvidence, specimenWeight
+        FROM cldb_results_chem 
+    </select>
+    
+    <select id="getOthersChemistry" resultType="Chemistry">
+        SELECT others_descriptionOfEvidence
+        FROM cldb_results_chem
+        WHERE others_descriptionOfEvidence IS NOT NULL AND others_descriptionOfEvidence != ""
+    </select>
+    
+</mapper>

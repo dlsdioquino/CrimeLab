@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.MedicoLegalDAO"> 
+ 
+    <insert id="medicoLegalInfo" parameterType="MedicoLegal">
+        INSERT INTO cldb_results_medicoreportdata (caseNo, caseType, examinerName, findings, requestingParty, suspect, timeDateReceived,
+        victim, specimenSubmitted, purposeOfLabExam, division, reportNo, conclusion, remarks, timeDateCompleted, examinerRank,
+        examinerPosition, notedName, notedRank, notedPosition)
+        VALUES (#{caseNo}, #{caseType}, #{examinerName},  #{findings}, #{requestingParty}, #{suspect}, STR_TO_DATE(REPLACE(#{timeDateReceived}, "'", ''), '%m/%d/%Y %h:%i %p'), 
+        #{victim}, #{specimenSubmitted}, #{purposeOfLabExam}, #{division}, #{reportNo}, #{conclusion}, #{remarks}, STR_TO_DATE(REPLACE(#{timeDateCompleted}, "'", ''), #{examinerRank},
+        #{examinerPosition}, #{notedName}, #{notedRank}, #{notedPosition})
+    </insert>
+    
+    <select id="getAllMedicoLegal" resultType="MedicoLegal">
+        SELECT caseNo, examinerName, caseType, victim, suspect, DATE_FORMAT(timeDateReceived,'%d-%b-%y') as timeDateReceived,
+        findings
+        FROM cldb_results_medicoreportdata
+        WHERE extract(MONTH FROM timeDateReceived)  = #{month}
+        ORDER BY timeDateReceived asc
+    </select>
+</mapper>

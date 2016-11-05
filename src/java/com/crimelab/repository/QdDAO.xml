@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.QdDAO"> 
+ 
+    <insert id="qdInfo" parameterType="Qd">
+        INSERT INTO cldb_results_qdreportdata (caseType, reportNo, requestingParty, suspect, timeDateReceived, victim)
+        VALUES (#{caseType}, #{reportNo}, #{requestingParty}, #{suspect}, STR_TO_DATE(REPLACE(#{timeDateReceived}, "'", ''), '%m/%d/%Y %h:%i %p'),
+        #{victim})
+    </insert>
+
+</mapper>

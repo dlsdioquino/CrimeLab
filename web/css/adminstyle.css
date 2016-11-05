@@ -1,0 +1,200 @@
+body {
+    background-color: #fff !important;
+}
+
+#menu {
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+#body {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 20px auto;
+}
+
+#adminheader {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    margin: 0;
+    background: #fff url('../img/stripe.png') repeat;
+}
+
+#adminheader img {
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.navbar-custom {
+    background-color: #b91d47;
+    color: #ffffff;
+}
+  
+.navbar-custom .navbar-nav > li > a {
+    color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color: transparent;
+}
+      
+.navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #fff;
+    color: #b91d47;
+}
+      
+.navbar-custom .navbar-brand {
+    color: #fff;
+}
+.navbar-custom .navbar-toggle {
+    background-color: #fff;
+}
+.navbar-custom .icon-bar {
+    background-color: #ddd;
+}
+
+.navbar-custom .navbar-btn {
+    background-color: #fff;
+    color: #b91d47;
+    border: none;
+}
+
+.navbar-custom .navbar-btn:hover {
+    background-color: #b91d47;
+    color: #fff;
+    border: none;
+    text-decoration: underline;
+}
+
+#adminfooter {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    background-color: #b91d47;
+    text-align: center;
+    font-family: 'FontAwesome', 'Helvetica','Calibri','Tahoma';
+    color: #fff;
+}
+
+#adminfooter p {
+    position: relative;
+    top: 5px;
+}
+
+#usertable > tbody > tr > td.unameholder {
+    font-family: 'FontAwesome', 'Helvetica', 'Calibri', 'Tahoma';
+    font-size: 15pt;
+    color: #2d89ef;
+    text-align: center;
+}
+
+#usertable > thead > tr > th {
+    text-align: center;
+}
+
+#usertable > tbody > tr > td {
+    font-family: 'FontAwesome', 'Helvetica', 'Calibri', 'Tahoma';
+    font-size: 11pt;
+    color: #333;
+    vertical-align: middle;
+}
+
+#usertable > tbody > tr:hover {
+    background-color: #eee;
+}
+
+#usertable > tbody > tr > td.actions {
+    text-align: center;
+}
+
+.userdisabled {
+    color: #ccc !important;
+}
+
+#adduserform {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+div.raised {
+    margin-top: 0 !important;
+}
+
+h3 {
+    color: #b91d47;
+}
+
+.unameheader {
+    font-family: 'FontAwesome', 'Helvetica', 'Calibri', 'Tahoma';
+    font-size: 15pt;
+    color: #2d89ef;
+}
+
+textarea {
+    resize: none;
+}
+
+.minifeedbar {
+    border-right: 1px solid #ccc;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.minifeed {
+    font-family: 'FontAwesome', 'Helvetica', 'Calibri', 'Tahoma';
+    font-size: 9pt;
+    overflow: auto;
+    height: 450px;
+    margin: 0;
+}
+
+.tracker {
+    width: 7px;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    -webkit-transition: background 250ms linear;
+    transition: background 250ms linear;
+}
+
+.tracker:hover,
+.tracker.dragging {
+    background: #d9d9d9; 
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.scrollhandle {
+    position: relative;
+    width: 7px;
+    right: 0;
+    background: #999;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 7px;
+    -webkit-transition: width 250ms;
+    transition: width 250ms;
+}
+
+.tracker:hover .scrollhandle,
+.tracker.dragging .scrollhandle {
+    width: 7px;
+}
+
+.feeditem {
+    padding-top: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.postitem:hover {
+    cursor: pointer;
+    background-color: #eee;
+}
+
+#postup, #photoup {
+    margin-top: 10px;
+}

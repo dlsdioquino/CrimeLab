@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crimelab.repository.CriminalDAO"> 
+ 
+    <insert id="criminalInfo" parameterType="Criminal">
+        INSERT INTO cldb_results_crimreportdata(arrestingOfficer, arrestNo, caseNo, civicOrganization, civilStatus, criminalDate,
+        dialects, educationalAttainment, fatherAddress, fatherName, firstName, lastName, middleName, motherAddress, motherName,
+        offenseCharge, placeOfArrest, provincialAddress, relativeAddress, spouseAddress, spouseName, timeDateArrest, voterId)
+        VALUES (#{arrestingOfficer}, #{arrestNo}, #{caseNo}, #{civicOrganization}, #{civilStatus}, 
+        STR_TO_DATE(REPLACE(#{criminalDate}, "'", ''), '%m/%d/%Y %h:%i %p'), #{dialectSpoken}, #{educationalAttainment},  
+        #{fatherAddress}, #{fatherName},  #{firstName}, #{lastName}, #{middleName}, #{motherAddress}, #{motherName},
+        #{offenseCharge}, #{placeOfArrest}, #{provincialAddress},  #{relativeAddress}, #{spouseAddress}, #{spouseName},
+        STR_TO_DATE(REPLACE(#{timeDateArrest}, "'", ''), '%m/%d/%Y %h:%i %p'), #{voterId})
+    </insert>
+
+    <select id="getAllCriminal" resultType="Criminal">
+        SELECT lastName, firstName, middleName, DATE_FORMAT(timeDateArrest,'%d-%M-%y') as timeDateArrest, offenseCharge
+        FROM cldb_results_crimreportdata
+        WHERE extract(MONTH FROM timeDateArrest) = #{month}
+        ORDER BY timeDateArrest ASC
+    </select>
+
+</mapper>
